@@ -82,8 +82,6 @@ def analyze():
 # 🔍 Supporting Functions
 # -------------------------------------
 
-import requests
-
 def extract_text_from_image(image_bytes):
     api_key = 'YOUR_OCR_SPACE_API_KEY'  # Replace with your OCR.Space API key
     url = 'https://api.ocr.space/parse/image'
@@ -96,8 +94,6 @@ def extract_text_from_image(image_bytes):
         return result['ParsedResults'][0]['ParsedText']
     return ""  # Return empty string if no text is found
 
-# Call this function in your '/analyze' route
-
 def extract_ingredients_with_gemini(text):
     prompt = f"Extract only the ingredients from this product label: {text}"
     url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key={GEMINI_API_KEY}"
@@ -109,8 +105,17 @@ def extract_ingredients_with_gemini(text):
     }
     res = requests.post(url, headers=headers, json=data)
     result = res.json()
-    raw_ingredients = result['candidates'][0]['content']['parts'][0]['text']
-    return [i.strip() for i in raw_ingredients.replace("\n", ",").split(",") if i.strip()]
+
+    # Log the full response for debugging purposes
+    print("Gemini API response:", json.dumps(result, indent=2))
+
+    # Handle the case where 'candidates' might be missing
+    if 'candidates' in result and result['candidates']:
+        raw_ingredients = result['candidates'][0]['content']['parts'][0]['text']
+        return [i.strip() for i in raw_ingredients.replace("\n", ",").split(",") if i.strip()]
+    else:
+        print("No candidates found in the response.")
+        return []  # Return empty list if no ingredients found
 
 def fetch_nutrition_data(ingredient):
     url = f"https://api.nal.usda.gov/fdc/v1/foods/search?api_key={FOOD_API_KEY}&query={ingredient}"

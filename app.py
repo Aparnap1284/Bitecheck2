@@ -12,11 +12,6 @@ from flask_cors import CORS
 from google.cloud import vision
 from google.oauth2 import service_account
 from waitress import serve
-from dotenv import load_dotenv
-
-# Load environment variables
-from dotenv import load_dotenv
-load_dotenv()
 
 import os, json, base64
 

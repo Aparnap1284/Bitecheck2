@@ -15,12 +15,24 @@ from waitress import serve
 
 import os, json, base64
 
+import os
+import json
+import base64
+
+# Fetch the Firebase configuration from the environment variable
 raw_config_base64 = os.environ.get("FIREBASE_CONFIG")
+
 if raw_config_base64 is None:
     raise ValueError("FIREBASE_CONFIG environment variable not set")
 
-with open("firebase_config.json") as f:
-    FIREBASE_CONFIG = json.load(f)
+# Decode the base64-encoded configuration
+decoded_config = base64.b64decode(raw_config_base64).decode("utf-8")
+
+# Parse the decoded JSON string
+FIREBASE_CONFIG = json.loads(decoded_config)
+
+# Optionally print the configuration (for debugging purposes)
+# print(FIREBASE_CONFIG)
 
 cred = credentials.Certificate(FIREBASE_CONFIG)
 firebase_admin.initialize_app(cred, {

@@ -82,14 +82,21 @@ def analyze():
 # 🔍 Supporting Functions
 # -------------------------------------
 
+import requests
+
 def extract_text_from_image(image_bytes):
-    # Use the already decoded FIREBASE_CONFIG
-    credentials = service_account.Credentials.from_service_account_info(FIREBASE_CONFIG)
-    client = vision.ImageAnnotatorClient(credentials=credentials)
-    image = vision.Image(content=image_bytes)
-    response = client.text_detection(image=image)
-    texts = response.text_annotations
-    return texts[0].description if texts else ""
+    api_key = 'YOUR_OCR_SPACE_API_KEY'  # Replace with your OCR.Space API key
+    url = 'https://api.ocr.space/parse/image'
+    files = {'file': image_bytes}
+    data = {'apikey': api_key}
+    response = requests.post(url, files=files, data=data)
+    result = response.json()
+    
+    if 'ParsedResults' in result:
+        return result['ParsedResults'][0]['ParsedText']
+    return ""  # Return empty string if no text is found
+
+# Call this function in your '/analyze' route
 
 def extract_ingredients_with_gemini(text):
     prompt = f"Extract only the ingredients from this product label: {text}"

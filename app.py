@@ -10,6 +10,9 @@ from flask_cors import CORS
 from google.cloud import vision
 from google.oauth2 import service_account
 from waitress import serve
+import pytesseract
+from PIL import Image
+pytesseract.pytesseract.tesseract_cmd = r'C:\path\to\tesseract.exe'  # Windows example
 
 # Fetch the Firebase configuration from the environment variable
 raw_config_base64 = os.getenv("FIREBASE_CONFIG")
@@ -48,7 +51,7 @@ def analyze():
     image_file = request.files['image']
     image_bytes = image_file.read()
 
-    # 1. OCR: Extract text from image
+    # 1. OCR: Extract text from image using Pytesseract
     extracted_text = extract_text_from_image(image_bytes)
 
     # 2. Gemini AI: Extract Ingredients
@@ -83,16 +86,16 @@ def analyze():
 # -------------------------------------
 
 def extract_text_from_image(image_bytes):
-    api_key = 'YOUR_OCR_SPACE_API_KEY'  # Replace with your OCR.Space API key
-    url = 'https://api.ocr.space/parse/image'
-    files = {'file': image_bytes}
-    data = {'apikey': api_key}
-    response = requests.post(url, files=files, data=data)
-    result = response.json()
+    # Open the image using PIL from the byte stream
+    image = Image.open(io.BytesIO(image_bytes))
     
-    if 'ParsedResults' in result:
-        return result['ParsedResults'][0]['ParsedText']
-    return ""  # Return empty string if no text is found
+    # Use Pytesseract to extract text from the image
+    extracted_text = pytesseract.image_to_string(image)
+    
+    # Print the extracted text (for debugging)
+    print(f"Extracted Text: {extracted_text}")
+    
+    return extracted_text
 
 def extract_ingredients_with_gemini(text):
     prompt = f"Extract only the ingredients from this product label: {text}"

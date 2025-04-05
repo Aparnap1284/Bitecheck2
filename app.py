@@ -11,8 +11,6 @@ from google.cloud import vision
 from google.oauth2 import service_account
 from waitress import serve
 
-import os, json, base64
-
 # Fetch the Firebase configuration from the environment variable
 raw_config_base64 = os.getenv("FIREBASE_CONFIG")
 
@@ -37,12 +35,6 @@ FOOD_API_KEY = os.getenv("FOOD_API_KEY")
 
 app = Flask(__name__)
 CORS(app, origins="*")
-
-# Remove or comment out the /test-firebase route temporarily
-# @app.route("/test-firebase")
-# def test_firebase():
-#     ref = db.reference("/")
-#     return {"message": "Connected!", "data": ref.get()}
 
 @app.route("/", methods=["GET"])
 def home():
@@ -91,7 +83,8 @@ def analyze():
 # -------------------------------------
 
 def extract_text_from_image(image_bytes):
-    credentials = service_account.Credentials.from_service_account_info(json.loads(os.getenv("FIREBASE_CONFIG")))
+    # Use the already decoded FIREBASE_CONFIG
+    credentials = service_account.Credentials.from_service_account_info(FIREBASE_CONFIG)
     client = vision.ImageAnnotatorClient(credentials=credentials)
     image = vision.Image(content=image_bytes)
     response = client.text_detection(image=image)

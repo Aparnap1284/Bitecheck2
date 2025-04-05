@@ -12,7 +12,12 @@ from google.oauth2 import service_account
 from waitress import serve
 import pytesseract
 from PIL import Image
-pytesseract.pytesseract.tesseract_cmd = r'C:\path\to\tesseract.exe'  # Windows example
+import pytesseract
+
+# Define the Tesseract executable path
+pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'  # Linux path
+
+# Or use the correct path for your system if it's different
 
 # Fetch the Firebase configuration from the environment variable
 raw_config_base64 = os.getenv("FIREBASE_CONFIG")

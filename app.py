@@ -18,6 +18,7 @@ import os, json, base64
 import os
 import json
 import base64
+print("Firebase DB URL:", os.getenv("FIREBASE_DB_URL"))
 
 # Fetch the Firebase configuration from the environment variable
 raw_config_base64 = os.environ.get("FIREBASE_CONFIG")

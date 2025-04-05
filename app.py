@@ -1,5 +1,3 @@
-# app.py
-
 import os
 import io
 import base64
@@ -15,11 +13,6 @@ from waitress import serve
 
 import os, json, base64
 
-import os
-import json
-import base64
-print("Firebase DB URL:", os.getenv("FIREBASE_DB_URL"))
-
 # Fetch the Firebase configuration from the environment variable
 raw_config_base64 = os.environ.get("FIREBASE_CONFIG")
 
@@ -32,21 +25,19 @@ decoded_config = base64.b64decode(raw_config_base64).decode("utf-8")
 # Parse the decoded JSON string
 FIREBASE_CONFIG = json.loads(decoded_config)
 
-# Optionally print the configuration (for debugging purposes)
-# print(FIREBASE_CONFIG)
-
+# Initialize Firebase
 cred = credentials.Certificate(FIREBASE_CONFIG)
 firebase_admin.initialize_app(cred, {
     'databaseURL': os.getenv("FIREBASE_DB_URL")
 })
 
-
-# Gemini + FoodData API Keys
+# API Keys for Gemini and FoodData APIs
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 FOOD_API_KEY = os.getenv("FOOD_API_KEY")
 
 app = Flask(__name__)
 CORS(app, origins="*")
+
 @app.route("/test-firebase")
 def test_firebase():
     ref = db.reference("/")
@@ -64,22 +55,22 @@ def analyze():
     image_file = request.files['image']
     image_bytes = image_file.read()
 
-    # 1. OCR
+    # 1. OCR: Extract text from image
     extracted_text = extract_text_from_image(image_bytes)
 
     # 2. Gemini AI: Extract Ingredients
     ingredients = extract_ingredients_with_gemini(extracted_text)
     
-    # 3. Nutrition info for first ingredient
+    # 3. Nutrition info for the first ingredient
     nutrition_info = {}
     for ing in ingredients:
         nutrition_info = fetch_nutrition_data(ing)
         break
 
-    # 4. Suggest alternatives
-    alternatives = suggest_alternatives(ingredients)
+    # 4. Suggest product alternatives using Open Food Facts API
+    alternatives = suggest_product_alternatives(ingredients)
 
-    # 5. Prepare response
+    # 5. Prepare response with product name, ingredients, nutrition info, and alternatives
     response = {
         "product_name": "Scanned Food Product",
         "ingredients": [{"ingredient_name": i} for i in ingredients],
@@ -135,17 +126,35 @@ def fetch_nutrition_data(ingredient):
             }
     return {}
 
-def suggest_alternatives(ingredients):
-    suggestions = []
+def suggest_product_alternatives(ingredients):
+    alternatives = []
     for ing in ingredients:
         ing_lower = ing.lower()
-        if "sugar" in ing_lower:
-            suggestions.append({"ingredient_name": "Jaggery instead of Sugar"})
-        elif "salt" in ing_lower:
-            suggestions.append({"ingredient_name": "Rock Salt instead of Refined Salt"})
-        elif "flour" in ing_lower:
-            suggestions.append({"ingredient_name": "Whole Wheat Flour instead of Refined Flour"})
-    return suggestions if suggestions else [{"ingredient_name": "This product looks healthy"}]
+        # Encode the product name for a URL query
+        product_name_encoded = ing.replace(" ", "+")
+        # Construct the URL with the actual product name
+        url = f"https://world.openfoodfacts.org/api/v0/search?search_terms={product_name_encoded}&fields=product_name,ingredients_text,nutriments"
+        
+        # Request to Open Food Facts API
+        response = requests.get(url)
+        
+        if response.status_code == 200:
+            data = response.json()
+            products = data.get("products", [])
+            
+            for product in products[:3]:  # Limit to 3 alternatives
+                alternatives.append({
+                    "product_name": product.get("product_name", "Unknown"),
+                    "ingredients": product.get("ingredients_text", "Unknown"),
+                    "nutrition_info": product.get("nutriments", {})
+                })
+                
+            if not alternatives:
+                alternatives.append({"product_name": "No alternatives found"})
+        else:
+            alternatives.append({"product_name": "Error fetching alternatives"})
+    
+    return alternatives
 
 # -------------------------------------
 # 🚀 Start Server

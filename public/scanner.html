@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Scan Food Label</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Happy+Monkey&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="scanner.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="#" class="logo">
+        <span class="logo-icon">🍎</span>
+        BiteCheck
+      </a>
+    </div>
+  </header>
+
+  <main class="camera-container">
+    <h1 class="camera-title">Scan <span>Food</span> Label</h1>
+    <p class="camera-subtitle">Position the ingredient list within the frame and tap the button to analyze what's in your food</p>
+
+    <div class="preview-container">
+      <img id="preview-image" src="#" alt="Preview" style="display: none; width: 100%; height: 100%; object-fit: cover;">
+      
+      <div class="camera-overlay">
+        <p class="overlay-text">Upload a food label image</p>
+        <div class="food-emoji-container">
+          <span class="food-emoji">🍎</span>
+          <span class="food-emoji">🥑</span>
+          <span class="food-emoji">🥦</span>
+        </div>
+      </div>
+      
+      <div class="scanner-guide">
+        <div class="corner top-left"></div>
+        <div class="corner top-right"></div>
+        <div class="corner bottom-left"></div>
+        <div class="corner bottom-right"></div>
+        <div class="scanning-animation"></div>
+      </div>
+      
+      <div id="working-indicator">
+        <div class="spinner"></div>
+        <span>Analyzing Label...</span>
+      </div>
+    </div>
+
+    <div class="camera-controls">
+      <input type="file" id="imageInput" accept="image/*" style="display: none;" />
+      <button class="action-button" id="uploadButton">
+        <i class="fas fa-camera"></i>
+        Scan
+      </button>
+    </div>
+
+    <div class="tips-section">
+      <h3 class="tips-title">Tips for <span>Best</span> Results</h3>
+      <div class="tips-list">
+        <div class="tip-item">
+          <span class="tip-icon">📸</span>
+          <p>Make sure the ingredient list is well-lit and clearly visible</p>
+        </div>
+        <div class="tip-item">
+          <span class="tip-icon">👋</span>
+          <p>Hold your device steady while scanning</p>
+        </div>
+        <div class="tip-item">
+          <span class="tip-icon">🔍</span>
+          <p>Position the entire list within the rectangular guide</p>
+        </div>
+        <div class="tip-item">
+          <span class="tip-icon">👀</span>
+          <p>Review the captured image before submitting for analysis</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 BiteCheck - Food Scanning App</p>
+  </footer>
+
+  <script src="scanner.js"></script>
+</body>
+</html>

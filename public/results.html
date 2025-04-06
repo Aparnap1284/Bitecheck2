@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BiteCheck - Scan Results</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="results.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <span class="logo-icon">🍎</span>
+      BiteCheck
+    </div>
+  </header>
+
+  <div class="container">
+    <h1>Your <span>Scan</span> Results</h1>
+    <p class="subtitle">Here's what we found about your food</p>
+
+    <div class="results-container">
+      <div id="results-list">
+        <!-- Food items will be populated here by JavaScript -->
+      </div>
+
+      <div class="buttons-container">
+        <button class="action-button">Save Results</button>
+        <button class="action-button secondary">Scan Again</button>
+      </div>
+
+      <div class="alternatives-section">
+        <h2>Healthier <span>Alternatives</span></h2>
+        <div id="alternatives-list">
+          <!-- Alternatives will be populated here by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <p>&copy; 2025 BiteCheck. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="results.js"></script>
+</body>
+</html>

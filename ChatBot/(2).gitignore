@@ -1,0 +1,7 @@
+# Ignore all JSON keys (to prevent leaks)
+*.json
+firebase/*.json
+api/firebase/*.json
+
+# If you have a specific key name used in code, ignore it explicitly
+serviceAccountKey.json

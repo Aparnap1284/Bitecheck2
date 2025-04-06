@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: bitecheck
-    env: python
-    buildCommand: ""  # No need to run build command since we're using Dockerfile
-    startCommand: ""  # No need to specify start command as it's in the Dockerfile
-    dockerfilePath: Dockerfile  # This points to the Dockerfile in your project root
-    plan: free  # You can use 'free', 'starter', or other plans based on your needs

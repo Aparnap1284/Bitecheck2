@@ -28,4 +28,3 @@ Each module is self-contained with its own requirements and deployment configura
 ---
 
 This repo is structured for easy independent deployment of both services without conflicts.
-

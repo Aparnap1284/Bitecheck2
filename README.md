@@ -1,16 +1,30 @@
-# bitecheck
+# BiteCheck 🍎💬
 
-A new Flutter project.
+BiteCheck is an AI-powered food ingredient assistant that combines OCR-based label scanning with a chatbot for personalized dietary insights.
 
-## Getting Started
+## 📂 Folder Structure
 
-This project is a starting point for a Flutter application.
+- `ChatBot/` – Gemini-powered chatbot backend to answer food-related queries, suggest alternatives, and more.
+- `OCR/` – OCR module to extract ingredients from scanned food labels using Tesseract and image processing.
 
-A few resources to get you started if this is your first Flutter project:
+Each module is self-contained with its own requirements and deployment configuration.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🚀 Deployment (Render or local)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 🔹 ChatBot
+- **Start File:** `chatBot.py`
+- **Directory:** `ChatBot/`
+- **Dependencies:** `requirements_CB.txt`
+
+### 🔹 OCR Module
+- **Start File:** `app.py`
+- **Directory:** `OCR/`
+- **Dependencies:** `requirements_OCR.txt`
+
+## 🧑‍💻 Team
+- ChatBot – Handled by Yashti
+- OCR – Handled by Aparna
+- Frontend - Handled by Ashlesha
+---
+
+This repo is structured for easy independent deployment of both services without conflicts.

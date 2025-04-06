@@ -29,26 +29,118 @@ MOCK_NUTRITION_DB = {
     "almonds": {"calories": 579, "proteins": 21, "fats": 50, "carbs": 22},
     "oats": {"calories": 389, "proteins": 17, "fats": 7, "carbs": 66},
     "honey": {"calories": 304, "proteins": 0.3, "fats": 0, "carbs": 82},
-    "olive oil": {"calories": 884, "proteins": 0, "fats": 100, "carbs": 0}
+    "olive oil": {"calories": 884, "proteins": 0, "fats": 100, "carbs": 0},
+    "milk solids": {"calories": 496, "proteins": 26, "fats": 27, "carbs": 38},
+    "raisins": {"calories": 299, "proteins": 3, "fats": 0.5, "carbs": 79},
+    "sunflower oil": {"calories": 884, "proteins": 0, "fats": 100, "carbs": 0},
+    "papaya": {"calories": 43, "proteins": 0.5, "fats": 0.3, "carbs": 11},
+    "pineapple": {"calories": 50, "proteins": 0.5, "fats": 0.1, "carbs": 13},
+    "orange pulp": {"calories": 47, "proteins": 0.9, "fats": 0.1, "carbs": 12},
+    "invert syrup": {"calories": 310, "proteins": 0, "fats": 0, "carbs": 80},
+    "maltose": {"calories": 380, "proteins": 0, "fats": 0, "carbs": 95},
+    "emulsifiers": {"calories": 150, "proteins": 0, "fats": 16, "carbs": 2},
+    "raising agents": {"calories": 5, "proteins": 0, "fats": 0, "carbs": 1},
+    "preservatives": {"calories": 10, "proteins": 0, "fats": 0, "carbs": 2},
+    "stabilizer": {"calories": 20, "proteins": 0, "fats": 0, "carbs": 5},
+    "synthetic food colour": {"calories": 0, "proteins": 0, "fats": 0, "carbs": 0},
+    "flavouring substances": {"calories": 5, "proteins": 0, "fats": 0, "carbs": 1},
+    "chocolate": {"calories": 546, "proteins": 4.9, "fats": 31, "carbs": 61},
+    "butter": {"calories": 717, "proteins": 0.9, "fats": 81, "carbs": 0.1},
+    "cashews": {"calories": 553, "proteins": 18, "fats": 44, "carbs": 30}
 }
 
-# 🧠 Suggestions based on excess nutrients
 def suggest_alternatives(nutrition_totals):
+    calories = nutrition_totals["calories"]
+    proteins = nutrition_totals["proteins"]
+    fats = nutrition_totals["fats"]
+    carbs = nutrition_totals["carbs"]
+
     suggestions = []
 
-    if nutrition_totals["carbs"] > 100:
-        suggestions.append("Try low-carb snacks like roasted chickpeas or protein bars.")
+    # 🍞 Carbs Suggestions
+    carb_suggestions = []
+    if carbs > 120:
+        carb_suggestions += [
+            "Too many carbs! Try 🥒 cucumber sticks or 🥚 boiled eggs.",
+            "Carb overload! Try 🥜 nuts or 🧀 paneer cubes.",
+            "Lighten it up with 🍿 popcorn or a 🥗 veggie bowl."
+        ]
+    elif carbs > 80:
+        carb_suggestions += [
+            "High carbs detected. Swap with 🥬 lettuce wraps or 🫛 sprouts.",
+            "Lower carbs? Go for 🍄 mushrooms or 🌰 mixed seeds."
+        ]
+    elif carbs < 40:
+        carb_suggestions += [
+            "Low on carbs. Add 🍠 sweet potatoes or 🍞 whole grains."
+        ]
 
-    if nutrition_totals["fats"] > 70:
-        suggestions.append("Consider snacks with healthy fats like nuts or avocado crisps.")
+    # 🥩 Protein Suggestions
+    protein_suggestions = []
+    if proteins < 5:
+        protein_suggestions += [
+            "Low protein. Try 🍳 eggs or 🧀 paneer.",
+            "Boost protein with 🥜 peanuts or 🍗 grilled chicken.",
+            "Need protein? Go for 🥚 boiled eggs or 🥛 milk."
+        ]
+    elif proteins > 15:
+        protein_suggestions += [
+            "Awesome protein pick 💪!",
+            "Protein-rich snack! Keep it up 🌟."
+        ]
+    else:
+        protein_suggestions += [
+            "Add some 🫘 lentils or 🌰 nuts for protein boost."
+        ]
 
-    if nutrition_totals["calories"] > 800:
-        suggestions.append("Switch to lower-calorie alternatives like rice cakes or fruits.")
+    # 🧈 Fat Suggestions
+    fat_suggestions = []
+    if fats > 80:
+        fat_suggestions += [
+            "High in fats. Switch to 🍌 banana or 🌽 corn snacks.",
+            "Too much fat. Try 🥗 leafy snacks or 🧃 smoothies.",
+            "Go light with 🍎 apples or 🥝 kiwi slices."
+        ]
+    elif fats > 40:
+        fat_suggestions += [
+            "Moderate fat. Consider more 🥬 veggies or 🍓 berries.",
+            "Try reducing fats with 🥣 soups or 🫐 yogurt bowls."
+        ]
+    elif fats < 10:
+        fat_suggestions += [
+            "Very low fat. Add 🥑 or 🫒 for healthy fats."
+        ]
 
-    if nutrition_totals["proteins"] < 5:
-        suggestions.append("Consider protein-rich snacks like boiled eggs or Greek yogurt.")
+    # 🔥 Calorie Suggestions
+    calorie_suggestions = []
+    if calories > 1000:
+        calorie_suggestions += [
+            "Too many cals! Go for 🍇 fruits or 🧆 roasted snacks.",
+            "Heavy snack. Choose 🥗 salads or 🍉 melon slices next time.",
+            "Calories too high! Try 🌰 seeds or 🍵 green tea snacks."
+        ]
+    elif calories > 600:
+        calorie_suggestions += [
+            "Bit high on calories. Consider 🍓 smoothies or 🥒 veggies.",
+            "High calorie count! Switch to 🧃 fruit juices or 🍎 apple slices."
+        ]
+    elif calories < 200:
+        calorie_suggestions += [
+            "Super light choice! Great for snacking 😌.",
+            "Low-calorie and smart 💚!",
+            "Guilt-free munching 👍."
+        ]
 
-    return suggestions
+    # ✅ Overall Balanced
+    if calories < 500 and fats < 30 and carbs < 70 and proteins > 10:
+        suggestions.append("Looks balanced! 🥗 Smart choice.")
+
+    # 🎯 Combine all category suggestions
+    all_suggestions = carb_suggestions + protein_suggestions + fat_suggestions + calorie_suggestions + suggestions
+
+    # Shuffle for randomness and pick 4 to keep it concise
+    random.shuffle(all_suggestions)
+    return all_suggestions[:4]
 
 # 📸 OCR Function (file-based)
 def extract_text_from_image(image_file):
@@ -119,6 +211,68 @@ def analyze_ingredients(ingredients):
 
     print("Total Nutrition:", total_nutrition)
     return analyzed, total_nutrition
+import random
+
+def generate_product_name(extracted_text):
+    text_lower = extracted_text.lower()
+
+    # Map ingredient keywords to intelligent product names
+    keyword_name_map = {
+        # Snacks & Bakery
+        "refined wheat flour": "Classic Tea-Time Biscuit",
+        "maida": "Refined Flour Snack Pack",
+        "sugar": "Sweet Treat Snack Pack",
+        "salt": "Salted Snack Bites",
+        "palm oil": "Instant Noodle Bites",
+        "cocoa solids": "Choco Fudge Bar",
+        "milk solids": "Creamy Milk Delight",
+        "chocolate": "Choco Bliss Bar",
+        "oats": "Oat Energy Bar",
+        "honey": "Honey Nutri Bar",
+        "raisins": "Raisin Nut Mix",
+        "almond": "Nutty Almond Crunch",
+        "cashew": "Creamy Cashew Chunks",
+        "peanut": "Peanut Protein Pop",
+        "fruit": "Fruity Chewy Cubes",
+        "spices": "Masala Mix Noodles",
+        "flour": "Wholegrain Flour Base",
+        "ghee": "Desi Ghee Ladoo",
+        "butter": "Buttery Cracker Pack",
+        "juice": "Tropical Fruit Juice Box",
+        "cereal": "Morning Oatmeal Crunch",
+        "protein": "Protein Punch Bar",
+        "vitamin": "Vitamin Boost Sachet",
+        "fiber": "Fiber Fuel Cubes",
+        "rice": "Ready-to-Cook Rice Mix",
+        "noodles": "Spicy Instant Noodles",
+        "granola": "Nutri Crunch Granola Bar"
+    }
+
+    # Track keyword matches
+    matched_keywords = []
+    for keyword, name in keyword_name_map.items():
+        if keyword in text_lower:
+            matched_keywords.append(name)
+
+    # If multiple names match, return the one with most important ingredient
+    if matched_keywords:
+        # You could later prioritize this with weighted scoring
+        return matched_keywords[0]
+
+    # Friendly fallback product names
+    fallback_names = [
+        "Balanced Life Snack Box",
+        "Smart Energy Trail Mix",
+        "Veggie Boost Crackers",
+        "Fiber Fuel Cookies",
+        "Clean Eats Super Bar",
+        "Wholesome Oats Cereal",
+        "Grainy Goodness Puffs",
+        "Morning Glow Cereal",
+        "Power-Up Nutri Cubes",
+        "Healthylicious Mini Pack"
+    ]
+    return random.choice(fallback_names)
 
 # Home Route
 @app.route('/')
@@ -144,6 +298,9 @@ def analyze():
                 "nutrition_totals": {},
                 "suggested_alternatives": []
             }), 200
+        
+         # 🧠 NEW: Generate product name
+        product_name = generate_product_name(extracted_text)
 
         ingredients = extract_ingredients_from_text(extracted_text)
         analyzed_ingredients, nutrition_totals = analyze_ingredients(ingredients)
@@ -158,7 +315,7 @@ def analyze():
         })
 
         return jsonify({
-            "product_name": "Generic Item",
+            "product_name": product_name,
             "ingredients": analyzed_ingredients,
             "nutrition_totals": nutrition_totals,
             "suggested_alternatives": suggestions,

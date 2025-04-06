@@ -1,0 +1,35 @@
+# === Ignore sensitive JSON keys ===
+ChatBot/serviceAccountKey.json
+OCR/serviceAccountKey.json
+firebase/serviceAccountKey.json
+api/firebase/serviceAccountKey.json
+serviceAccountKey.json
+
+# === Node / Python / General ===
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+*.env
+.env
+
+# === VSCode / System files ===
+.vscode/
+.DS_Store
+Thumbs.db
+
+# === Virtual Envs / Dependencies (if any) ===
+venv/
+.env/
+*.egg-info/
+dist/
+build/
+
+# === Ignore any other credential/config backup ===
+*.bak
+*.old
+*.swp
+
+# === Keep useful sample JSONs (optional) ===
+!**/sample*.json
